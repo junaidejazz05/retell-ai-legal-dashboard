@@ -21,20 +21,39 @@ export interface Call {
 
 export interface CallsResponse {
   calls: Call[];
-  next_cursor?: string;
+  next_cursor?: string | null;
 }
 
-export async function fetchCalls(filters?: any): Promise<CallsResponse> {
+export async function fetchCalls(filters?: {
+  cursor?: string;
+  limit?: number;
+  direction?: 'inbound' | 'outbound';
+  start_timestamp_from?: number;
+  start_timestamp_to?: number;
+  agent_id?: string;
+}): Promise<CallsResponse> {
   try {
-    const response = await fetch('/api/calls', {
+    const params = new URLSearchParams();
+    if (filters?.cursor) params.set('cursor', filters.cursor);
+    if (filters?.limit) params.set('limit', String(filters.limit));
+    if (filters?.direction) params.set('direction', filters.direction);
+    if (filters?.start_timestamp_from) params.set('start_timestamp_from', String(filters.start_timestamp_from));
+    if (filters?.start_timestamp_to) params.set('start_timestamp_to', String(filters.start_timestamp_to));
+    if (filters?.agent_id) params.set('agent_id', filters.agent_id);
+
+    const url = params.toString() ? `/api/calls?${params.toString()}` : '/api/calls';
+
+    const response = await fetch(url, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
+      cache: 'no-store',
     });
 
     if (!response.ok) {
-      throw new Error('Failed to fetch calls');
+      const text = await response.text();
+      throw new Error(text || 'Failed to fetch calls');
     }
 
     return await response.json();

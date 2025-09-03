@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation"
 export default function CallLogsPage() {
   const [calls, setCalls] = useState<Call[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string>("")
   const [searchTerm, setSearchTerm] = useState("")
   const router = useRouter()
 
@@ -22,6 +23,7 @@ export default function CallLogsPage() {
         setCalls(response.calls || [])
       } catch (error) {
         console.error("Failed to load calls:", error)
+        setError(error instanceof Error ? error.message : "Failed to load calls")
       } finally {
         setLoading(false)
       }
@@ -122,6 +124,10 @@ export default function CallLogsPage() {
           {loading ? (
             <div className="flex items-center justify-center h-64">
               <p className="text-muted-foreground">Loading call logs...</p>
+            </div>
+          ) : error ? (
+            <div className="flex items-center justify-center h-64">
+              <p className="text-red-600">{error}</p>
             </div>
           ) : filteredCalls.length === 0 ? (
             <div className="flex items-center justify-center h-64">

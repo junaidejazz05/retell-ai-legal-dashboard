@@ -12,3 +12,4 @@ Must use NextJS and Retell AI APIs correctly
 
 Always follow: Explore current codebase implementation, plan code changes, execute code changes, lint & debug before ending.
 
+Always refer to the Retell.ai API documentation: https://docs.retellai.com/api-references/
