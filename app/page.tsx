@@ -11,6 +11,7 @@ import { fetchCalls, calculateMetrics, type Call } from "@/lib/retell-api"
 
 export default function Page() {
   const [metrics, setMetrics] = useState({
+    totalCallsAllTime: 0,
     totalCallsToday: 0,
     percentChangeFromYesterday: 0,
     newClientCalls: 0,
@@ -52,18 +53,13 @@ export default function Page() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Calls Today</CardTitle>
+              <CardTitle className="text-sm font-medium">Total Calls (All Time)</CardTitle>
               <PhoneCall className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                {loading ? "..." : metrics.totalCallsToday}
+                {loading ? "..." : metrics.totalCallsAllTime}
               </div>
-              <p className="text-xs text-muted-foreground">
-                <span className="text-accent">
-                  {loading ? "..." : `${metrics.percentChangeFromYesterday >= 0 ? "+" : ""}${metrics.percentChangeFromYesterday.toFixed(1)}%`}
-                </span> from yesterday
-              </p>
             </CardContent>
           </Card>
 
@@ -86,7 +82,7 @@ export default function Page() {
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Avg Call Duration</CardTitle>
+              <CardTitle className="text-sm font-medium">Avg Call Duration (All Time)</CardTitle>
               <Clock className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>

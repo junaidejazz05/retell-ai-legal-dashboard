@@ -110,6 +110,7 @@ export function calculateMetrics(calls: Call[]) {
   const lastMonthCalls = calls.filter(call => call.start_timestamp >= monthAgoTimestamp);
 
   // Calculate metrics
+  const totalCallsAllTime = calls.length;
   const totalCallsToday = todayCalls.length;
   const totalCallsYesterday = yesterdayCalls.length;
   
@@ -132,7 +133,7 @@ export function calculateMetrics(calls: Call[]) {
     : 0;
 
   // Calculate average call duration
-  const avgDurationMs = todayCalls.reduce((sum, call) => sum + (call.duration_ms || 0), 0) / (todayCalls.length || 1);
+  const avgDurationMs = calls.reduce((sum, call) => sum + (call.duration_ms || 0), 0) / (calls.length || 1);
   const avgDurationMinutes = Math.floor(avgDurationMs / 60000);
   const avgDurationSeconds = Math.floor((avgDurationMs % 60000) / 1000);
   
@@ -159,6 +160,7 @@ export function calculateMetrics(calls: Call[]) {
   const conversionRateChange = conversionRate - lastQuarterConversionRate;
 
   return {
+    totalCallsAllTime,
     totalCallsToday,
     percentChangeFromYesterday,
     newClientCalls,
