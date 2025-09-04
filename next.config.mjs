@@ -9,8 +9,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // AWS Amplify specific configuration
-  output: 'standalone',
+  // AWS App Runner configuration
   trailingSlash: true,
 }
 

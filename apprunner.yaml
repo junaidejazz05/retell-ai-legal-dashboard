@@ -1,15 +1,15 @@
 version: 1.0
-runtime: docker
+runtime: nodejs18
 build:
   commands:
     build:
       - echo "Build started on `date`"
-      - echo "Building the Docker image..."
-      - docker build -t retell-legal-dashboard .
+      - npm ci --legacy-peer-deps
+      - npm run build
       - echo "Build completed on `date`"
 run:
-  runtime-version: latest
-  command: node server.js
+  runtime-version: 18
+  command: npm start
   network:
     port: 3000
     env: PORT
