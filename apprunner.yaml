@@ -21,4 +21,4 @@ run:
     - name: HOSTNAME
       value: "0.0.0.0"
     - name: RETELL_API_KEY
-      value: $RETELL_API_KEY
+      value: key_cddfa2505152a711c0613d577359
