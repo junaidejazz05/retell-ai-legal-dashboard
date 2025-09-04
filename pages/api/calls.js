@@ -1,16 +1,22 @@
-import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET(request: NextRequest) {
+// pages/api/calls.js
+export default async function handler(req, res) {
+  if (req.method !== 'GET') {
+    res.status(405).json({ error: 'Method Not Allowed' });
+    return;
+  }
+
   try {
-    const { searchParams } = new URL(request.url);
-    const cursor = searchParams.get('cursor');
-    const limit = searchParams.get('limit');
-    const direction = searchParams.get('direction');
-    const start_timestamp_from = searchParams.get('start_timestamp_from');
-    const start_timestamp_to = searchParams.get('start_timestamp_to');
-    const agent_id = searchParams.get('agent_id');
+    const {
+      cursor,
+      limit,
+      direction,
+      start_timestamp_from,
+      start_timestamp_to,
+      agent_id,
+    } = req.query;
 
-    const body: any = {};
+    const body = {};
     if (cursor) body.cursor = cursor;
     if (limit) body.limit = Number(limit);
     if (direction) body.direction = direction;
@@ -26,15 +32,14 @@ export async function GET(request: NextRequest) {
         'Authorization': `Bearer ${process.env.RETELL_API_KEY}`,
       },
       body: JSON.stringify(body),
+      // avoid any caching on serverless platforms
       cache: 'no-store',
     });
 
     if (!resp.ok) {
       const text = await resp.text();
-      return NextResponse.json(
-        { error: text || `Upstream error (${resp.status})` },
-        { status: resp.status }
-      );
+      // bubble up Retell error with status
+      return res.status(resp.status).json({ error: text || `Upstream error (${resp.status})` });
     }
 
     const data = await resp.json();
@@ -53,9 +58,9 @@ export async function GET(request: NextRequest) {
 
     const next_cursor_norm = data?.next_cursor || data?.cursor || null;
 
-    return NextResponse.json({ calls, next_cursor: next_cursor_norm });
+    res.status(200).json({ calls, next_cursor: next_cursor_norm });
   } catch (err) {
     console.error('Error listing calls:', err);
-    return NextResponse.json({ error: 'Internal error' }, { status: 500 });
+    res.status(500).json({ error: 'Internal error' });
   }
 }
