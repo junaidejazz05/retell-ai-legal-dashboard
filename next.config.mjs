@@ -11,10 +11,6 @@ const nextConfig = {
   },
   // AWS App Runner configuration
   trailingSlash: true,
-  // Ensure API routes work properly
-  experimental: {
-    serverComponentsExternalPackages: [],
-  },
   // Add rewrites for API routes if needed
   async rewrites() {
     return [
