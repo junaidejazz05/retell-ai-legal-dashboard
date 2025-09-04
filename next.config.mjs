@@ -10,12 +10,9 @@ const nextConfig = {
     unoptimized: true,
   },
   // AWS Amplify specific configuration
-  output: 'standalone',
   trailingSlash: true,
-  // Ensure API routes work with Amplify
-  experimental: {
-    outputFileTracingRoot: undefined,
-  },
+  // Remove standalone output for API routes support
+  // output: 'standalone', // Commented out for Amplify API routes support
 }
 
 export default nextConfig
