@@ -20,3 +20,5 @@ run:
       value: "production"
     - name: HOSTNAME
       value: "0.0.0.0"
+    - name: RETELL_API_KEY
+      value: $RETELL_API_KEY
