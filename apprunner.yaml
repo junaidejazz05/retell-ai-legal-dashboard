@@ -9,7 +9,7 @@ build:
       - echo "Build completed on `date`"
 run:
   runtime-version: 22.17.0
-  command: npm start
+  command: npm start -- -H 0.0.0.0  # Add hostname flag
   network:
     port: 3000
     env: PORT
@@ -18,3 +18,5 @@ run:
       value: "3000"
     - name: NODE_ENV
       value: "production"
+    - name: HOSTNAME
+      value: "0.0.0.0"
