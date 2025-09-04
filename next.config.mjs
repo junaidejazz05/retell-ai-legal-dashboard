@@ -9,6 +9,13 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  // AWS Amplify specific configuration
+  output: 'standalone',
+  trailingSlash: true,
+  // Ensure API routes work with Amplify
+  experimental: {
+    outputFileTracingRoot: undefined,
+  },
 }
 
 export default nextConfig
