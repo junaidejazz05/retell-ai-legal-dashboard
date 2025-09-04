@@ -20,5 +20,6 @@ run:
       value: "production"
     - name: HOSTNAME
       value: "0.0.0.0"
+  secrets:
     - name: RETELL_API_KEY
-      value: key_cddfa2505152a711c0613d577359
+      value-from: "arn:aws:secretsmanager:us-east-1:759713896909:secret:retell-api-key-g0FaMU"
